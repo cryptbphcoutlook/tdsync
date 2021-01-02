@@ -27,7 +27,6 @@ jobs:
           cd sa
           curl -L "${{ secrets.GCLONE_SA_DLURL }}" -o accounts.zip
           unzip -jq -o accounts.zip
-          rm ._0.json
           rm accounts.zip
           cd ..
           cat >  ~/.config/rclone/rclone.conf  << EOF
@@ -59,7 +58,6 @@ jobs:
           cd sa
           curl -L "${{ secrets.GCLONE_SA_DLURL }}" -o accounts.zip
           unzip -jq -o accounts.zip
-          rm ._0.json
           rm accounts.zip
           cd ..
           cat >  ~/.config/rclone/rclone.conf  << EOF
@@ -91,7 +89,6 @@ jobs:
           cd sa
           curl -L "${{ secrets.GCLONE_SA_DLURL }}" -o accounts.zip
           unzip -jq -o accounts.zip
-          rm ._0.json
           rm accounts.zip
           cd ..
           cat >  ~/.config/rclone/rclone.conf  << EOF
@@ -123,7 +120,6 @@ jobs:
           cd sa
           curl -L "${{ secrets.GCLONE_SA_DLURL }}" -o accounts.zip
           unzip -jq -o accounts.zip
-          rm ._0.json
           rm accounts.zip
           cd ..
           cat >  ~/.config/rclone/rclone.conf  << EOF
