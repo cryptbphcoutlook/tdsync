@@ -1,0 +1,136 @@
+name: gclone sync
+
+on:
+  schedule:
+    - cron: 30 8 * * 1
+  workflow_dispatch:
+    inputs:
+    
+jobs:
+  sync1:
+    runs-on: ubuntu-latest
+    name: Backup1 Sync
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: gclone Install
+        run: |
+          wget -qO- https://api.github.com/repos/donwa/gclone/releases/latest \
+          | grep browser_download_url | grep Linux_x86_64 | cut -d '"' -f 4 \
+          | wget --no-verbose -i- -O- | gzip -d -c > rclone
+          sudo mv rclone /usr/bin
+          sudo chmod +x /usr/bin/rclone
+      - name: gclone Config
+        run: |
+          mkdir -p ~/.config/rclone
+          mkdir -p sa
+          cd sa
+          curl -L "${{ secrets.GCLONE_SA_DLURL }}" -o accounts.zip
+          unzip -jq -o accounts.zip
+          rm ._0.json
+          rm accounts.zip
+          cd ..
+          cat >  ~/.config/rclone/rclone.conf  << EOF
+          ${{ secrets.GCLONE_CONFIG_SYNC }}
+          EOF
+      - name: gclone Run
+        run: |
+          echo "::add-mask::gclone sa file: /home/runner/.config/rclone/sa/"
+          echo "::add-mask::.json"
+          rclone sync Main:/ TD1:/ --drive-server-side-across-configs --stats=1s --stats-one-line -vP --checkers=320 --transfers=320 --drive-pacer-min-sleep=1ms --drive-pacer-burst=5000
+  sync2:
+    needs : sync1
+    runs-on: ubuntu-latest
+    name: Backup2 Sync
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: gclone Install
+        run: |
+          wget -qO- https://api.github.com/repos/donwa/gclone/releases/latest \
+          | grep browser_download_url | grep Linux_x86_64 | cut -d '"' -f 4 \
+          | wget --no-verbose -i- -O- | gzip -d -c > rclone
+          sudo mv rclone /usr/bin
+          sudo chmod +x /usr/bin/rclone
+      - name: gclone Config
+        run: |
+          mkdir -p ~/.config/rclone
+          mkdir -p sa
+          cd sa
+          curl -L "${{ secrets.GCLONE_SA_DLURL }}" -o accounts.zip
+          unzip -jq -o accounts.zip
+          rm ._0.json
+          rm accounts.zip
+          cd ..
+          cat >  ~/.config/rclone/rclone.conf  << EOF
+          ${{ secrets.GCLONE_CONFIG_SYNC }}
+          EOF
+      - name: gclone Run
+        run: |
+          echo "::add-mask::gclone sa file: /home/runner/.config/rclone/sa/"
+          echo "::add-mask::.json"
+          rclone sync TD1:/ TD2:/ --drive-server-side-across-configs --stats=1s --stats-one-line -vP --checkers=320 --transfers=320 --drive-pacer-min-sleep=1ms --drive-pacer-burst=5000
+  sync3:
+    needs : sync2
+    runs-on: ubuntu-latest
+    name: Backup3 Sync
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: gclone Install
+        run: |
+          wget -qO- https://api.github.com/repos/donwa/gclone/releases/latest \
+          | grep browser_download_url | grep Linux_x86_64 | cut -d '"' -f 4 \
+          | wget --no-verbose -i- -O- | gzip -d -c > rclone
+          sudo mv rclone /usr/bin
+          sudo chmod +x /usr/bin/rclone
+      - name: gclone Config
+        run: |
+          mkdir -p ~/.config/rclone
+          mkdir -p sa
+          cd sa
+          curl -L "${{ secrets.GCLONE_SA_DLURL }}" -o accounts.zip
+          unzip -jq -o accounts.zip
+          rm ._0.json
+          rm accounts.zip
+          cd ..
+          cat >  ~/.config/rclone/rclone.conf  << EOF
+          ${{ secrets.GCLONE_CONFIG_SYNC }}
+          EOF
+      - name: gclone Run
+        run: |
+          echo "::add-mask::gclone sa file: /home/runner/.config/rclone/sa/"
+          echo "::add-mask::.json"
+          rclone sync TD2:/ TD3:/ --drive-server-side-across-configs --stats=1s --stats-one-line -vP --checkers=320 --transfers=320 --drive-pacer-min-sleep=1ms --drive-pacer-burst=5000
+  sync4:
+    needs : sync3
+    runs-on: ubuntu-latest
+    name: Backup4 Sync
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: gclone Install
+        run: |
+          wget -qO- https://api.github.com/repos/donwa/gclone/releases/latest \
+          | grep browser_download_url | grep Linux_x86_64 | cut -d '"' -f 4 \
+          | wget --no-verbose -i- -O- | gzip -d -c > rclone
+          sudo mv rclone /usr/bin
+          sudo chmod +x /usr/bin/rclone
+      - name: gclone Config
+        run: |
+          mkdir -p ~/.config/rclone
+          mkdir -p sa
+          cd sa
+          curl -L "${{ secrets.GCLONE_SA_DLURL }}" -o accounts.zip
+          unzip -jq -o accounts.zip
+          rm ._0.json
+          rm accounts.zip
+          cd ..
+          cat >  ~/.config/rclone/rclone.conf  << EOF
+          ${{ secrets.GCLONE_CONFIG_SYNC }}
+          EOF
+      - name: gclone Run
+        run: |
+          echo "::add-mask::gclone sa file: /home/runner/.config/rclone/sa/"
+          echo "::add-mask::.json"
+          rclone sync TD3:/ TD4:/ --drive-server-side-across-configs --stats=1s --stats-one-line -vP --checkers=320 --transfers=320 --drive-pacer-min-sleep=1ms --drive-pacer-burst=5000
