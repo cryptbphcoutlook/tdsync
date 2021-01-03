@@ -10,6 +10,8 @@ jobs:
   sync1:
     runs-on: ubuntu-latest
     name: Backup1 Sync
+    continue-on-error: true
+    timeout-minutes: 100
 
     steps:
       - uses: actions/checkout@v2
@@ -41,6 +43,8 @@ jobs:
     needs : sync1
     runs-on: ubuntu-latest
     name: Backup2 Sync
+    continue-on-error: true
+    timeout-minutes: 100
 
     steps:
       - uses: actions/checkout@v2
@@ -72,6 +76,8 @@ jobs:
     needs : sync2
     runs-on: ubuntu-latest
     name: Backup3 Sync
+    continue-on-error: true
+    timeout-minutes: 100
 
     steps:
       - uses: actions/checkout@v2
@@ -103,6 +109,8 @@ jobs:
     needs : sync3
     runs-on: ubuntu-latest
     name: Backup4 Sync
+    continue-on-error: true
+    timeout-minutes: 100
 
     steps:
       - uses: actions/checkout@v2
