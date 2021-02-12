@@ -2,7 +2,7 @@ name: gclone sync
 
 on:
   schedule:
-    - cron: 30 8 * * 1
+    - cron: 0 23 * * *
   workflow_dispatch:
     inputs:
     
